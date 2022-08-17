@@ -3,11 +3,14 @@ package com.example.demo.student;
 import javax.persistence.*;
 
 
+import java.time.LocalDate;
+import java.time.Period;
+
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity(name = "Student")
 @Table(
-        name = "student",
+        name = "students",
         uniqueConstraints = {
                 @UniqueConstraint(name = "student_email_unique", columnNames = "email")
         }
@@ -29,6 +32,20 @@ public class Student {
             updatable = false
     )
     private Long id;
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
+
+    @Column(
+            name = "dob",
+            updatable = false
+    )
+    private LocalDate dob;
 
     @Column(
             name = "first_name",
@@ -56,16 +73,19 @@ public class Student {
             nullable = false
 
     )
+    @Transient
     private Integer age;
 
     public Student(String firstName,
                    String lastName,
                    String email,
-                   Integer age) {
+                   LocalDate dob
+                  ) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.age = age;
+        this.dob = dob;
+
     }
 
     public Student() {
@@ -105,7 +125,7 @@ public class Student {
     }
 
     public Integer getAge() {
-        return age;
+        return Period.between(this.dob,LocalDate.now()).getYears();
     }
 
     public void setAge(Integer age) {

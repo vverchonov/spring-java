@@ -10,8 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DemoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
-		StudentService ss = new StudentService();
-		StudentController sc = new StudentController(ss);
 
 	}
 
